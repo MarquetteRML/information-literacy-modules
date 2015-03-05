@@ -547,12 +547,12 @@ header a.marquette {
   position: absolute;
   width: 200px;
   height: 200px;
-  top: 100;
+  top: 100px;
   right: 0;
   background: transparent url(../images/marquette-seal.png) 0 0 no-repeat;
   text-indent: 100%;
-    white-space: nowrap;
-    overflow: hidden; 
+  white-space: nowrap;
+  overflow: hidden; 
 }
 
 aside a.button {
