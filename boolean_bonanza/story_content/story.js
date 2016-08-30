@@ -637,6 +637,9 @@ function OpenWebObject(strId, strUrl, nXPos, nYPos, nWidth, nHeight, nSlideXOffs
 		oIFrame.style.width = "100%";
 		oIFrame.style.height = "100%";
 		oIFrame.allowtransparency = "true";
+		oIFrame.setAttribute('allowFullScreen', '');
+		oIFrame.setAttribute('webkitallowFullScreen', '');
+		oIFrame.setAttribute('mozallowFullScreen', '');
 		
 		oWebObject.Div.appendChild(oIFrame);
 		oWebObject.IFrame = oIFrame;
@@ -1402,7 +1405,7 @@ function ContentResults()
 	this.nPassingScore = 80;
 	this.nScore = 0;
 	this.strStatus = "incomplete";
-	this.strType = "quiz";
+	this.strType = "view";
 }
 
 function QuestionResults(strId, strLMSId, strType, strCorrectResponse, strUserResponse, nLatency, strStatus, nPoints, strCompletedTime, nWeight, nQuestionNumber, strDescription, bTracked) 

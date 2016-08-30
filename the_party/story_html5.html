@@ -2,11 +2,15 @@
 <html>
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Storyline</title>
+	<title>The Party</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-	<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+	<style>html,body{background:#FFFFFF;}</style>
 	<link href="mobile/player.css" rel="stylesheet" type="text/css" />
 	<!--[if lt IE 9]><script>location.href = location.href.replace("_html5", "_unsupported");</script><![endif]-->
+
+	<!-- Created using Articulate Storyline 2.10 - http://www.articulate.com  --> 
+	<!-- version: 2.10.1607.1221 -->
 </head>
 <body>
 
@@ -15,7 +19,11 @@
 
 	<div class="framewrap">
 		<div class="landscape_menu no_logo">
-			<div class="logo_background"></div>
+			<div class="logo_background">
+				<div class="logo_section"></div>
+				<div class="presenter_video_section"></div>
+				<div class="presenter_section"></div>
+			</div>
 			<ul id="menu_tabs" class="menu_nav">
 			</ul>
 			<div id="menu_container" class="menu_container scrollarea">
@@ -27,7 +35,10 @@
 		<div class="contentpane">
 			<div id="slidebg"></div>
 			<div id="topbar">
-				<div id="storytitle"></div>
+				<div id="storytitle">
+					<div id="storytitle_section"></div>
+					<div id="timer_section"></div>
+				</div>
 				<div id="toplinks_left"></div>
 				<div id="toplinks_right"></div>
 			</div>
@@ -36,21 +47,28 @@
 				</div>
 			</div>
 			<div id="controls">
+				<div id="control-finish" class="controlbar-button right" style="display:none;"><a class="icon finish-slide"></a><div class="label finish">FINISH</div></div>
 				<div id="control-submit" class="controlbar-button right" style="display:none;"><a class="icon submit-slide"></a><div class="label submit">SUBMIT</div></div>
 				<div id="control-next" class="controlbar-button right"><div class="label next">NEXT</div><a class="icon next-slide"></a></div>
 				<div id="control-previous" class="controlbar-button right"><a class="icon previous-slide"></a><div class="label prev">PREV</div></div>
-				<div id="control-volume" class="controlbar-button compact"><a class="icon volume"></a></div>
+				<div id="control-submitall" class="controlbar-button" style="display:none;"><div class="label submitall">Submit All</div></div>
+				<div id="control-volume" class="controlbar-button compact"><a class="icon volume half"></a></div>
 
 				<div id="control-progress" class="controlbar-button">
 					<div id="control-pauseplay" class="ignore">
-						<a class="icon wait"></a>
-						<a class="icon play" style="display:none;"></a>
-						<a class="icon pause" style="display:none;"></a>
+						<div class="playbtn progress-bar-button" style="display:none;">
+							<div class="icon play"></div>
+						</div>
+						<div class="pausebtn progress-bar-button" style="display:none;">
+							<div class="icon pause"></div>
+						</div>
 					</div>
 					<div id="progressbar" class="progress-container">
 						<div class="progress-bar"></div>
 					</div>
-					<a class="icon restart" href="javascript:player.restart()"></a>
+					<div class="progress-bar-button restart">
+						<div class="icon restart" ></div>
+					</div>
 				</div>
 				<span id="indicator"></span>
 			</div>
@@ -72,6 +90,7 @@
 	var globals = {};
 	try
 	{
+		globals.strTitle = "The Party";
 		globals.bLMS = false;
 		globals.bAOSupport = false;
 		globals.strContentFolder = "story_content";
@@ -89,6 +108,7 @@
 		globals.bScrollbars = true;
 		globals.bWarnOnCommitFail = false;
 		globals.strWMode = "window"; // opaque | window (use "window" for optimal performance, opaque for webobject support)
+		globals.strVersion = "2.10.1607.1221";
 	}
 	catch (e) {}
 	player.initGlobals();
@@ -111,6 +131,8 @@
 				break;
 		}
 	}
+
+	browser.ResizeBrowser(globals.strBrowserSize);
 
 	if (globals.bLMS)
 	{

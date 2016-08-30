@@ -1,12 +1,13 @@
 
 // Browser Sniffing
-var IE =  ((document.all)&&(navigator.appVersion.indexOf("MSIE")!=-1))    ? true : false;
-var IE6 = ((document.all)&&(navigator.appVersion.indexOf("MSIE 6.")!=-1)) ? true : false;
+var strAgent = window.navigator.userAgent;
+var strAppVersion = window.navigator.appVersion;
 
-var FF = (navigator.userAgent.indexOf("Firefox")!=-1) ? true : false;
-
-var Safari3 =  (navigator.appVersion.indexOf("Safari") && navigator.appVersion.indexOf("Version/3"));
-
+var IE =  (((document.all) && (strAppVersion.indexOf("MSIE")!=-1)) || strAgent.indexOf("Trident") != -1) ? true : false;
+var IE6 = ((document.all) && (strAppVersion.indexOf("MSIE 6.")!=-1)) ? true : false;
+var gtIEWin7 = IE && ((strAgent.indexOf("Windows NT 6.1") == -1) && (strAgent.indexOf("Windows NT 6.0") == -1) && (strAgent.indexOf("Windows NT 5.1") == -1) && (strAgent.indexOf("Windows NT 5.0") == -1));
+var FF = (strAgent.indexOf("Firefox")!=-1);
+var Safari3 =  (strAppVersion.indexOf("Safari") && strAppVersion.indexOf("Version/3"));
 
 // Message Delimitors
 var g_strDelim = "|~|";
@@ -35,11 +36,14 @@ var g_strQuery = document.location.search.substr(1);
 function WriteSwfObject(strSwfFile, nWidth, nHeight, strScale, strAlign, strQuality, strBgColor, bCaptureRC, strWMode, strFlashVars)
 {
 	var strHtml = "";
+	var strWidth = nWidth + "px";
+	var strHeight = nHeight + "px";
+	var strPublishSize = "&vPublishWidth=" + nWidth + "&vPublishHeight=" + nHeight;
 	
 	if (strScale == "show all")
 	{
-		nWidth = "100%";
-		nHeight = "100%";
+		strWidth = "100%";
+		strHeight = "100%";
 	}
 
 	// If there are flashvars defined append a delimitor
@@ -51,13 +55,21 @@ function WriteSwfObject(strSwfFile, nWidth, nHeight, strScale, strAlign, strQual
 	strFlashVars += "vHtmlContainer=true";
 	strFlashVars += "&TinCan=" + (g_bTinCan ? "true" : "false");
 	
-	if (navigator.userAgent.toLowerCase().indexOf("chrome") >= 0)
+	if (navigator.userAgent.toLowerCase().indexOf("chrome") >= 0 && strWMode != "transparent")
 	{
 		strWMode = "opaque";
 	}
 	if (bCaptureRC && strWMode == "window")
 	{
 		strFlashVars += "&vCaptureRC=true";
+		if(strWMode != "transparent")
+		{
+			strWMode = "opaque";
+		}
+	}
+	
+	if (g_strQuery.indexOf("artcommid") >= 0 && strWMode == "window")
+	{
 		strWMode = "opaque";
 	}
 	
@@ -67,6 +79,9 @@ function WriteSwfObject(strSwfFile, nWidth, nHeight, strScale, strAlign, strQual
 	// Whether or not we are loaded by AO
 	strFlashVars += "&vAOSupport=" + g_bAOSupport;
 	
+	// Set the publish width and height
+	strFlashVars += strPublishSize;
+	
 	// Set the LMS Resume data
 	if (g_bLMSPresent)
 	{
@@ -75,7 +90,7 @@ function WriteSwfObject(strSwfFile, nWidth, nHeight, strScale, strAlign, strQual
 		strFlashVars += "&vResumeData=" + encodeURI(g_strResumeData);
 	}	
 	
-	strFlashVars += "&vProjector=" + g_bProjector;
+	strFlashVars += GetHostVars();
 	
 	var strLocProtocol = location.protocol;
 	
@@ -84,9 +99,15 @@ function WriteSwfObject(strSwfFile, nWidth, nHeight, strScale, strAlign, strQual
 		strLocProtocol = "http:";
 	}
 	
+	var strRole = "";
 
-	strHtml += "<div style='width:" + nWidth + "; height:" + nHeight + ";' id='divSwf'>";
-	strHtml += "<object classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000' codebase='" + strLocProtocol + "//fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0' width='" + nWidth + "' height='" + nHeight + "' align='" + strAlign + "' id='player'>";
+	if (gtIEWin7)
+	{
+		strRole = " role='application'";
+	}
+	
+	strHtml += "<div" + strRole + " style='width:" + strWidth + "; height:" + strHeight + ";' id='divSwf' >";
+	strHtml += "<object type='application/x-shockwave-flash' data='" + strSwfFile +"' width='" + strWidth + "' height='" + strHeight + "' align='" + strAlign + "' id='player'>";
 	strHtml += "<param name='scale' value='" + strScale + "' />";
 	strHtml += "<param name='movie' value='" + strSwfFile + "' />";
 	strHtml += "<param name='quality' value='" + strQuality + "' />";
@@ -95,8 +116,7 @@ function WriteSwfObject(strSwfFile, nWidth, nHeight, strScale, strAlign, strQual
 	strHtml += "<param name='bgcolor' value='" + strBgColor + "' />";
 	strHtml += "<param name='flashvars' value='" + strFlashVars + "' />";
 	strHtml += "<param name='wmode' value='" + strWMode + "'/>";
-	strHtml += "<param name='AllowScriptAccess' value='always'>";
-	strHtml += "<embed id='eplayer' name='player' allowFullScreen='true' wmode='" + strWMode + "' src='" + strSwfFile +"' flashvars='" + strFlashVars + "' scale='" + strScale + "' quality='" + strQuality + "' bgcolor='" + strBgColor + "' width='" + nWidth + "' height='" + nHeight + "' align='" + strAlign + "' swLiveConnect='true' type='application/x-shockwave-flash' pluginspage='" + strLocProtocol + "//www.macromedia.com/go/getflashplayer' AllowScriptAccess='always'/>";
+	strHtml += "<param name='allowScriptAccess' value='always'>";
 	strHtml += "</object>";
 	strHtml += "</div>";
 
@@ -106,51 +126,18 @@ function WriteSwfObject(strSwfFile, nWidth, nHeight, strScale, strAlign, strQual
 	{
 		AddRightClickListener();
 	}
+	
+	setTimeout(SetPlayerFocus, 500);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Flash Comm
 ////////////////////////////////////////////////////////////////////////////////
-var g_arrCommands = [];
+
 function onBWEvent(command, args) 
 {
-	if (command == "BW_UpdateWebObjects" ||
-		command == "BW_OpenWebObject" ||
-		command == "BW_CloseWebObject" ||
-		command == "BW_MailTo" ||
-		command == "BW_OpenUrl" ||
-		command == "BW_CloseAllWebObjects" ||
-		command == "BW_RestoreWebObjects" ||
-		command == "BW_ExecuteJavascript" ||
-		command == "BW_OpenSwf" ||
-		command == "BW_ResizeSwf" ||
-		command == "BW_OpenVideo" ||
-		command == "BW_RestoreFocus" ||
-		command == "BW_TincanConfigError")
-	{
-		g_arrCommands.unshift({"command": command, "args": args});
-		onBWEventInterval();
-	}
-	else
-	{
-		g_arrCommands.push({"command": command, "args": args});
-		
-		setTimeout(function () 
-		{
-			if (g_arrCommands.length > 0) 
-			{
-				onBWEventInterval();
-			}
-		}, 0);	
-	}
-}
-
-function onBWEventInterval()
-{
-	var objTemp = g_arrCommands.shift();
-		
-	args = unescape(objTemp.args);
-	command = String(objTemp.command);
+	args = unescape(args);
+	command = String(command);
 
 	var arrArgs = args.split(g_strDelim);
 	
@@ -221,6 +208,7 @@ function onBWEventInterval()
 			g_oPrintOptions.strName = arrArgs[4];
 			g_oPrintOptions.strMainQuizId = arrArgs[5];
 			g_oPrintOptions.arrQuizzes = arrArgs[6].split(",");
+			g_oPrintOptions.bSurvey = (arrArgs[7] == "true");
 			
 			window.open(GetBasePath() + g_strContentFolder + "/report.html", "Reports") 
 			break;
@@ -231,6 +219,10 @@ function onBWEventInterval()
 			
 		case "BW_UpdateWebObjects":
 			UpdateWebObjects(parseInt(arrArgs[0]), parseInt(arrArgs[1]));
+			break;
+			
+		case "BW_UpdateWebObjectPosition":
+			UpdateWebObjectPosition(arrArgs[0], parseInt(arrArgs[1]), parseInt(arrArgs[2]), parseInt(arrArgs[3]), parseInt(arrArgs[4]));
 			break;
 			
 		case "BW_OpenWebObject":
@@ -274,7 +266,7 @@ function onBWEventInterval()
 			{
 				if (FF)
 				{
-					setTimeout("CloseWindow()", 100);
+					setTimeout(CloseWindow, 100);
 				}
 				else
 				{
@@ -288,20 +280,15 @@ function onBWEventInterval()
 			break;
 			
 		case "BW_RestoreFocus":
-			var oPlayer = GetPlayer();
-			
-			try
-			{
-				oPlayer.tabIndex = 0;
-				oPlayer.focus();
-			}
-			catch (e)
-			{
-			}
+			SetPlayerFocus();
 			break;
 
 		case "BW_TincanConfigError":
 			TinCanConfigError();
+			break;
+			
+		case "BW_SetWebObjectZIndex":
+			SetWebObjectZIndex(arrArgs[0], arrArgs[1]);
 			break;
 		
 	}
@@ -317,23 +304,38 @@ function onBWEventInterval()
 	}
 }
 
+function GetHostVars()
+{
+	var strResult = "";
+	var arrArgs = g_strQuery.split("&");
+	
+	for (var i = 0; i < arrArgs.length; i++)
+	{
+		var arrPair = arrArgs[i].split("=");
+		
+		switch(arrPair[0])
+		{
+			case "artcommid":
+				strResult += "&vCommId=" + arrPair[1];
+				break;
+			case "arthostresume":
+				strResult += "&vResumeOverride=" + arrPair[1];
+				break;
+			case "artvolume":
+				strResult += "&InitVolume=" + arrPair[1];
+				break;
+		}
+	}
+	
+	return strResult;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Retrieve the player object
 ////////////////////////////////////////////////////////////////////////////////
 function GetPlayer()
 {
-	var player = null;
-	
-	if (IE)
-	{
-		player = document.getElementById("player");
-	}
-	else
-	{
-		player = document.getElementById("eplayer");
-	}
-	
-	return player;
+	return document.getElementById("player");;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -554,11 +556,6 @@ function DoOnClose(evt)
 	if (!g_bCloseExecuted)
 	{
 		g_bCloseExecuted = true;
-		
-		while (g_arrCommands.length > 0)
-		{
-			onBWEventInterval();
-		}			
 
 		if (g_bLMS)
 		{
@@ -592,8 +589,30 @@ function UpdateWebObjects(nSlideXOffset, nSlideYOffset)
 		oWebObject.Position.SlideYOffset = nSlideYOffset;
 	}
 	
-	// setTimeout("RepositionDivs()", 100);
 	RepositionDivs();
+}
+
+function UpdateWebObjectPosition(strId, nXPos, nYPos, nWidth, nHeight)
+{
+	var oWebObject = g_oWebObjects[strId];
+	
+	var oPosition = new Object();
+	oPosition.XPos = nXPos;
+	oPosition.YPos = nYPos;
+	oPosition.Width = nWidth;
+	oPosition.Height = nHeight;
+	oPosition.SlideXOffset = oWebObject.Position.SlideXOffset;
+	oPosition.SlideYOffset = oWebObject.Position.SlideYOffset;
+	oWebObject.Position = oPosition;
+	
+	var oRect = GetDivRect(oPosition);
+	
+	oWebObject.Div.style.left = oRect.left + "px";
+	oWebObject.Div.style.top = oRect.top + "px";
+	oWebObject.Div.style.width = oRect.width + "px";
+	oWebObject.Div.style.height = oRect.height + "px";
+	
+	oWebObject.contentWindow.scrollTop = nScrollPosition;
 }
 
 function OpenWebObject(strId, strUrl, nXPos, nYPos, nWidth, nHeight, nSlideXOffset, nSlideYOffset)
@@ -618,6 +637,9 @@ function OpenWebObject(strId, strUrl, nXPos, nYPos, nWidth, nHeight, nSlideXOffs
 		oIFrame.style.width = "100%";
 		oIFrame.style.height = "100%";
 		oIFrame.allowtransparency = "true";
+		oIFrame.setAttribute('allowFullScreen', '');
+		oIFrame.setAttribute('webkitallowFullScreen', '');
+		oIFrame.setAttribute('mozallowFullScreen', '');
 		
 		oWebObject.Div.appendChild(oIFrame);
 		oWebObject.IFrame = oIFrame;
@@ -629,7 +651,7 @@ function OpenWebObject(strId, strUrl, nXPos, nYPos, nWidth, nHeight, nSlideXOffs
 		g_oWebObjects[strId] = oWebObject;
 		oIFrame.src = strUrl;
 		
-		setTimeout("RepositionDivs()", 100);
+		setTimeout(RepositionDivs, 100);
 	}
 	else
 	{
@@ -663,6 +685,25 @@ function OpenWebObject(strId, strUrl, nXPos, nYPos, nWidth, nHeight, nSlideXOffs
 		oWebObject.Div.style.height = oRect.height + "px";
 		
 		oWebObject.Div.style.visibility = "visible";
+		oWebObject.Div.style.zIndex = "-1";
+	}
+	else
+	{
+		var oPosition = new Object();
+		oPosition.XPos = nXPos;
+		oPosition.YPos = nYPos;
+		oPosition.Width = nWidth;
+		oPosition.Height = nHeight;
+		oPosition.SlideXOffset = nSlideXOffset;
+		oPosition.SlideYOffset = nSlideYOffset;
+		oWebObject.Position = oPosition;
+		
+		var oRect = GetDivRect(oPosition);
+		
+		oWebObject.Div.style.left = oRect.left + "px";
+		oWebObject.Div.style.top = oRect.top + "px";
+		oWebObject.Div.style.width = oRect.width + "px";
+		oWebObject.Div.style.height = oRect.height + "px";
 	}
 }
 
@@ -707,6 +748,12 @@ function CloseWebObject(strId)
 	oWebObject.Open = false;
 }
 
+function SetWebObjectZIndex(strId, zId)
+{
+	var oWebObject = g_oWebObjects[strId];
+	oWebObject.Div.style.zIndex =  zId;
+}
+
 function GetDivRect(oPosition)
 {
 	var oRect = new Object();
@@ -730,8 +777,8 @@ function GetDivRect(oPosition)
 			nTopMargin = 0;
 		}
 		
-		oRect.left = nLeftMargin + oPosition.SlideXOffset + oPosition.XPos;
-		oRect.top = nTopMargin + oPosition.SlideYOffset + oPosition.YPos;
+		oRect.left = nLeftMargin + oPosition.XPos;
+		oRect.top = nTopMargin + oPosition.YPos;
 		oRect.width = oPosition.Width;
 		oRect.height = oPosition.Height;
 	}
@@ -752,8 +799,8 @@ function GetDivRect(oPosition)
 		nTopMargin = (nClientHeight - nSwfHeight * nScale) / 2;
 		nLeftMargin = (nClientWidth - nSwfWidth * nScale) / 2;
 		
-		oRect.left = nLeftMargin + (oPosition.SlideXOffset + oPosition.XPos) * nScale;
-		oRect.top = nTopMargin + (oPosition.SlideYOffset + oPosition.YPos) * nScale;
+		oRect.left = nLeftMargin + oPosition.XPos * nScale;
+		oRect.top = nTopMargin + oPosition.YPos * nScale;
 		oRect.width = Math.floor(oPosition.Width * nScale);
 		oRect.height = Math.floor(oPosition.Height * nScale);
 		
@@ -784,7 +831,7 @@ window.onresize = RepositionDivs;
 ////////////////////////////////////////////////////////////////////////////////
 function OpenUrl(strUrl, strWindow, strWindowSize, strWidth, strHeight, strUseDefaultControls, strStatus, strToolbar, strLocation, strMenubar, strScrollbars, strResizable)
 {
-
+	var bChrome = (navigator.userAgent.toLowerCase().indexOf("chrome") >= 0);
 	var nWndWidth = parseInt(strWidth);
 	var nWndHeight = parseInt(strHeight);
 	var bUseDefaultSize = (strWindowSize.toLowerCase() == "default");
@@ -793,87 +840,64 @@ function OpenUrl(strUrl, strWindow, strWindowSize, strWidth, strHeight, strUseDe
 
 	strUrl = ReplaceAll(strUrl, "%25", "?");
 	
-	if (bFullScreen)
-	{
-		nWndWidth = screen.availWidth;
-		nWndHeight = screen.availHeight;
-	}
-	else
-	{
-		if (nWndWidth > screen.availWidth)
+	var strOptions = "";
+	
+	if (!bUseDefaultControls && !bUseDefaultSize)
+	{	
+		if (bFullScreen)
 		{
 			nWndWidth = screen.availWidth;
-		}
-
-		if (nWndHeight > screen.availHeight)
-		{
 			nWndHeight = screen.availHeight;
+			
+			strOptions="left=0, top=0,";
 		}
-	}
+		else
+		{
+			if (nWndWidth > screen.availWidth)
+			{
+				nWndWidth = screen.availWidth;
+			}
 
-	var strOptions = "";
-	if (!bUseDefaultControls)
-	{
+			if (nWndHeight > screen.availHeight)
+			{
+				nWndHeight = screen.availHeight;
+			}
+		}
+		
 		if (!bUseDefaultSize)
 		{
 			strOptions += "width=" + nWndWidth + ", ";
 			strOptions += "height=" + nWndHeight + ", ";
 		}
-
-		strOptions += "status=" + ((strStatus.toLowerCase() == "true") ? 1 : 0);
-		strOptions += ", toolbar=" + ((strToolbar.toLowerCase() == "true") ? 1 : 0);
-		strOptions += ", scrollbars=" + ((strScrollbars.toLowerCase() == "true") ? 1 : 0);
-		strOptions += ", resizable=" + ((strResizable.toLowerCase() == "true") ? 1 : 0);
-		strOptions += ", alwaysRaised=1";
-	}
-	else
-	{
-		strOptions += "status=1";
-		strOptions += ", toolbar=1";
-		strOptions += ", scrollbars=1";
-		strOptions += ", resizable=1";
-		strOptions += ", alwaysRaised=1";	
-	}
-	
-
-	var oNewWnd;
-	
-	if (bUseDefaultSize && bUseDefaultControls)
-	{
-		g_wndLast = window.open(strUrl, strWindow, strOptions);
-	}
-	else if (bUseDefaultControls)
-	{
-		if (IE)
+		
+		if (bUseDefaultControls)
 		{
-			oNewWnd = window.open(GetBasePath() + g_strContentFolder + "/blank.html", strWindow, "alwaysRaised=true");
-			
-			if (bFullScreen)
-			{
-				oNewWnd.moveTo(0, 0);
-			}
-			
-			oNewWnd.resizeTo(nWndWidth, nWndHeight);
-			oNewWnd.document.location = strUrl;
-		}
-		else
-		{
-			oNewWnd = window.open(strUrl, strWindow, "alwaysRaised=true");
-			oNewWnd.resizeTo(nWndWidth, nWndHeight);
+			strToolbar = "true";
+			strScrollbars = "true";
+			strResizable = "true";
+			strMenubar = "true";
 		}
 		
-		g_wndLast = oNewWnd;
-	}
-	else
-	{
-		oNewWnd = window.open(strUrl, strWindow, strOptions);
-		g_wndLast = oNewWnd;
-	}
+		if (bChrome)
+		{	
+			if (bFullScreen || !bUseDefaultSize)
+			{
+				strMenubar = "false";
+			}
+			else
+			{
+				strOptions += "status=1, ";
+			}
+		}
 	
-	if (bFullScreen && !(bUseDefaultControls && IE))
-	{
-		oNewWnd.moveTo(0, 0);
+		strOptions += "toolbar=" + ((strToolbar.toLowerCase() == "true") ? 1 : 0);
+		strOptions += ", scrollbars=" + ((strScrollbars.toLowerCase() == "true") ? 1 : 0);
+		strOptions += ", resizable=" + ((strResizable.toLowerCase() == "true") ? 1 : 0);
+		strOptions += ", menubar=" + ((strMenubar.toLowerCase() == "true") ? 1 : 0);
+		strOptions += ", location=" + ((strLocation.toLowerCase() == "true") ? 1 : 0);
 	}
+		
+	g_wndLast = window.open(strUrl, strWindow, strOptions);
 	
 }
 
@@ -1003,6 +1027,11 @@ function OpenVideo(strUrl, strWndWidth, strWndHeight, strVidWidth, strVidHeight,
 	{
 		nWndHeight = screen.availHeight;
 	}
+	// Force chrome to open in a new window
+	if (navigator.userAgent.toLowerCase().indexOf("chrome") >= 0)
+	{
+		strMenubar = "false";
+	}	
 
 
 	var strOptions = "";
@@ -1010,7 +1039,6 @@ function OpenVideo(strUrl, strWndWidth, strWndHeight, strVidWidth, strVidHeight,
 	strOptions += ", height=" + nWndHeight;
 	strOptions += ", status=" + ((strStatus.toLowerCase() == "true") ? 1 : 0);
 	strOptions += ", toolbar=" + ((strToolbar.toLowerCase() == "true") ? 1 : 0);
-	strOptions += ", location=" + ((strLocation.toLowerCase() == "true") ? 1 : 0);
 	strOptions += ", menubar=" + ((strMenubar.toLowerCase() == "true") ? 1 : 0);
 	strOptions += ", scrollbars=" + ((strScrollbars.toLowerCase() == "true") ? 1 : 0);
 	strOptions += ", resizable=" + ((strResizable.toLowerCase() == "true") ? 1 : 0);
@@ -1159,15 +1187,37 @@ function NotifyRightUp(strId)
 	if (strId == "player" || strId == "eplayer")
 	{
 		var oPlayer = GetPlayer();
-		bReuslt = oPlayer.NotifyRightMouseUp();
+		bResult = oPlayer.NotifyRightMouseUp();
 	}
 	
 	return bResult;
 }
 
+function SetPlayerFocus()
+{
+	var oPlayer = GetPlayer();
+
+	try
+	{
+		oPlayer.tabIndex = 1;
+		oPlayer.focus();
+	}
+	catch (e)
+	{
+	}
+}
+
 function MailTo(strAddress)
 {
-	document.location = "mailto:" + strAddress;
+	var mailto_link = "mailto:" + strAddress;
+	var win = window.open(mailto_link, 'emailWindow');
+	setTimeout(function()
+	{
+		if (win && !win.closed)
+		{
+			win.close();
+		}
+	}, 1000);
 }
 
 function EmailResults(bShowUserScore, bShowPassingScore, bShowPassFail, bShowQuizReview, strAddress, strMainQuizId, arrQuizzes)
@@ -1355,7 +1405,7 @@ function ContentResults()
 	this.nPassingScore = 80;
 	this.nScore = 0;
 	this.strStatus = "incomplete";
-	this.strType = "quiz";
+	this.strType = "view";
 }
 
 function QuestionResults(strId, strLMSId, strType, strCorrectResponse, strUserResponse, nLatency, strStatus, nPoints, strCompletedTime, nWeight, nQuestionNumber, strDescription, bTracked) 
@@ -1399,7 +1449,7 @@ function GetTinCanData()
 	return decodeURIComponent(g_strQuery);
 }
 	
-function SendTinCanRequest(nMessageType, strMethod, strData, strUrl, arrHeaders)
+function SendTinCanStatement(nMessageType, strMethod, strData, strUrl, arrHeaders)
 {
 	var oTinCanRequest = new Object();
 	oTinCanRequest.MessageType = nMessageType;
@@ -1710,7 +1760,7 @@ function UseXDomainRequest(strUrl)
 {
     var bResult = false;
 	
-	if (IE)
+	if (window.XDomainRequest)
 	{
 		var xmlHttp = CreateXmlHttp();
 		var anchorDest = (document.createElement("a"));
