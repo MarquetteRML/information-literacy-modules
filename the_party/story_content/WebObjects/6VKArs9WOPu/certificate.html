@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <!-- Include pdfmake JS -->
+  <script src='pdfmake/pdfmake.min.js'></script>
+  <script src='pdfmake/vfs_fonts.js'></script>
+</head>
+
+<body>
+  <script>
+  
+	// Check if GetPlayer function exists, if it does, retrieve values of variables.
+    if (typeof window.parent.GetPlayer === 'function') {
+      
+      // Retrieve storyline player object from parent window
+      var player = window.parent.GetPlayer();
+      
+      // Retrieve the learners name from the learnerName variable
+      var name = player.GetVar("learnerName");
+      
+      // Retrieve the title of the project from projectTitle variable.
+      var title = player.GetVar("projectTitle");
+    
+    // If GetPlayer function does not exist we are probably testing the certificate outwith storyline. Set variables with dummy values for testing.
+    } else {
+      
+      var name = "Joe Bloggs";
+      
+      var title = "Test Project";
+      
+    }
+
+    // Get todays date in format dd/mm/yyyy
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = '0' + dd
+    }
+    if (mm < 10) {
+      mm = '0' + mm
+    }
+    date = dd + '/' + mm + '/' + yyyy;
+
+    // Define PDF output - See http://pdfmake.org/#/gettingstarted for information on creating a PDF document with pdfmake.
+    var docDefinition = {
+      // Set page size
+      pageSize: 'A4',
+      // Set document orientation
+      pageOrientation: 'landscape',
+      // Set page margins
+      pageMargins: [0, 110, 0, 100],
+
+      // Define document header
+      header: [
+        {
+          text: 'Organisation Name\n\n',
+          fontSize: 30,
+          alignment: 'center',
+          margin: [0, 40, 0, 40]
+        }
+      ],
+
+      // Define main body of document
+      content: [
+        {
+          text: 'This is to certify that',
+          fontSize: 16,
+          alignment: 'center',
+          margin: [0, 0, 0, 20]
+        },
+					 // Include learner name 
+        {
+          text: name,
+          fontSize: 25,
+          alignment: 'center',
+          margin: [0, 0, 0, 20]
+        },
+        {
+          text: 'successfully completed the following activity',
+          fontSize: 16,
+          alignment: 'center',
+          margin: [0, 0, 0, 10]
+        },
+					 // Include project title
+        {
+          text: title,
+          fontSize: 25,
+          alignment: 'center',
+          margin: [20, 0, 20, 0]
+        }
+      ],
+
+      // Define document footer
+      footer: [
+					// Include date
+        {
+          text: 'Awarded on: ' + date,
+          fontSize: 16,
+          alignment: 'center',
+          margin: [0, 0, 0, 0]
+        },
+      ]
+    };
+
+    // Function to generate and download the PDF using the document definition object (docDefinition) we defined previously.
+    function generatePDF() {
+      pdfMake.createPdf(docDefinition).download(title + '.pdf');
+    }
+	
+	// Testing - Uncomment to generate PDF with dummy values outwith storyline. This opens PDF in new window.
+    // pdfMake.createPdf(docDefinition).open();
+	
+  </script>
+</body>
+
+</html>

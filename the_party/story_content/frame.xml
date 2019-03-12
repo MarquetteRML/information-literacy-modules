@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bwFrame xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" default_layout="npnxnanbsnfns00000000001" textdirection="ltr" device="false" fontscale="100" kbshortcuts="false" skip_nav_enabled="true" outputtype="undefined" theme="classic">
+<bwFrame xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" default_layout="npnxnanbnsnfns00000000001" textdirection="ltr" device="false" fontscale="100" kbshortcuts="false" skip_nav_enabled="true" chromeless="false" outputtype="undefined" theme="classic">
   <layouts>
-    <layout name="npnxnanbsnfns00000000001" font="Articulate" controllayout="npnxnanbsnfns00000000001" colorscheme="npnxnanbsnfns00000000001" string_table="npnxnanbsnfns00000000001" />
-    <layout name="pxabnsnfns00000000001" font="Articulate" controllayout="pxabnsnfns00000000001" colorscheme="npnxnanbsnfns00000000001" string_table="npnxnanbsnfns00000000001" />
-    <layout name="npxnabnsnfns00000000001" font="Articulate" controllayout="npxnabnsnfns00000000001" colorscheme="npnxnanbsnfns00000000001" string_table="npnxnanbsnfns00000000001" />
-    <layout name="npnxnanbnsnfns00000000001" font="Articulate" controllayout="npnxnanbnsnfns00000000001" colorscheme="npnxnanbsnfns00000000001" string_table="npnxnanbsnfns00000000001" />
-    <layout name="pxabnsnfns00000000000" font="Articulate" controllayout="pxabnsnfns00000000000" colorscheme="npnxnanbsnfns00000000001" string_table="npnxnanbsnfns00000000001" />
+    <layout name="npnxnanbsnfns00000000001" font="Articulate" controllayout="npnxnanbsnfns00000000001" colorscheme="npnxnanbnsnfns00000000001" string_table="npnxnanbnsnfns00000000001" />
+    <layout name="pxabnsnfns00000000001" font="Articulate" controllayout="pxabnsnfns00000000001" colorscheme="npnxnanbnsnfns00000000001" string_table="npnxnanbnsnfns00000000001" />
+    <layout name="npxnabnsnfns00000000001" font="Articulate" controllayout="npxnabnsnfns00000000001" colorscheme="npnxnanbnsnfns00000000001" string_table="npnxnanbnsnfns00000000001" />
+    <layout name="npnxnanbnsnfns00000000001" font="Articulate" controllayout="npnxnanbnsnfns00000000001" colorscheme="npnxnanbnsnfns00000000001" string_table="npnxnanbnsnfns00000000001" />
+    <layout name="pxabnsnfns00000000000" font="Articulate" controllayout="pxabnsnfns00000000000" colorscheme="npnxnanbnsnfns00000000001" string_table="npnxnanbnsnfns00000000001" />
   </layouts>
   <control_options>
     <optiongroups>
@@ -26,8 +26,15 @@
           </option>
           <optionlist name="tabs">
             <listitems>
+              <listitem name="outline" value="false" group="linkleft" />
               <listitem name="resources" value="false" group="linkright" />
-              <listitem name="outline" value="false" group="sidebar" />
+              <listitem name="customlink" value="true" group="linkright">
+                <properties>
+                  <property name="title" value="Ask a Librarian" />
+                  <property name="data" value="5guQdnJ8Nkk" />
+                  <property name="ignoreSlideLock" value="true" />
+                </properties>
+              </listitem>
               <listitem name="glossary" value="false" group="sidebar" />
               <listitem name="transcript" value="false" group="sidebar" />
             </listitems>
@@ -48,8 +55,8 @@
         <options>
           <option name="flow" value="free" />
           <option name="wraplistitems" value="false" />
-          <option name="tooltips" value="true" />
-          <option name="autocollapse" value="true" />
+          <option name="tooltips" value="false" />
+          <option name="autocollapse" value="false" />
           <option name="autonumber" value="false" />
           <option name="enableresultsicons" value="false" />
         </options>
@@ -74,7 +81,7 @@
       </optiongroup>
       <optiongroup name="bottombaroptions">
         <options>
-          <option name="bottombar_enabled" value="true" />
+          <option name="bottombar_enabled" value="false" />
         </options>
       </optiongroup>
     </optiongroups>
@@ -197,7 +204,7 @@
     </control_layout>
   </control_layouts>
   <colorschemes>
-    <colorscheme name="npnxnanbsnfns00000000001">
+    <colorscheme name="npnxnanbnsnfns00000000001">
       <color_group name="timer">
         <group_colors>
           <color name="duration">
@@ -1035,7 +1042,8 @@
     </colorscheme>
   </colorschemes>
   <string_tables>
-    <string_table name="npnxnanbsnfns00000000001">
+    <string_table name="npnxnanbnsnfns00000000001">
+      <string id="acc_active">active</string>
       <string id="check_include">Check to include</string>
       <string id="clear">Clear and return to Menu</string>
       <string id="close">Close</string>
@@ -1069,6 +1077,7 @@
       <string id="resources">Resources</string>
       <string id="acc_resources">resources</string>
       <string id="restart">Restart</string>
+      <string id="resume">Resume</string>
       <string id="search">Search...</string>
       <string id="acc_search_input">search</string>
       <string id="search_in">Search in:</string>
@@ -1094,9 +1103,12 @@
   <nav_data>
     <outline>
       <links>
-        <slidelink slideid="_player.67jAFQ1zudJ" displaytext="The Party" expand="true" type="slide">
+        <slidelink slideid="_player.5dZkd89hQd9" displaytext="The Party" expand="true" type="slide">
           <links>
-            <slidelink slideid="_player.67jAFQ1zudJ.5ZBr0KrIZwg" displaytext="Start" expand="false" type="slide" />
+            <slidelink slideid="_player.5dZkd89hQd9.67lLPSbj3IU" displaytext="Introduction" expand="false" type="slide" />
+            <slidelink slideid="_player.5dZkd89hQd9.6cjzsvyDLFJ" displaytext="Selection" expand="false" type="slide" />
+            <slidelink slideid="_player.5dZkd89hQd9.6f5um9Rc8pi" displaytext="Questions" expand="false" type="slide" />
+            <slidelink slideid="_player.5dZkd89hQd9.66ZOZLfKRLP" displaytext="True/False" expand="false" type="slide" />
           </links>
         </slidelink>
       </links>
