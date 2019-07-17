@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bwFrame xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" default_layout="npnxnanbnsnfns00000000001" textdirection="ltr" device="false" fontscale="100" kbshortcuts="false" skip_nav_enabled="true" outputtype="undefined" theme="classic">
+<bwFrame xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" default_layout="npnxnanbnsnfns00000000001" textdirection="ltr" device="false" fontscale="100" kbshortcuts="false" skip_nav_enabled="true" chromeless="false" outputtype="undefined" theme="classic">
   <layouts>
     <layout name="npnxnanbsnfns00000000001" font="Articulate" controllayout="npnxnanbsnfns00000000001" colorscheme="npnxnanbnsnfns00000000001" string_table="npnxnanbnsnfns00000000001" />
     <layout name="pxabnsnfns00000000001" font="Articulate" controllayout="pxabnsnfns00000000001" colorscheme="npnxnanbnsnfns00000000001" string_table="npnxnanbnsnfns00000000001" />
@@ -67,6 +67,7 @@
           <option name="seekbar" value="false">
             <options>
               <option name="readonly" value="false" />
+              <option name="readonlyOnce" value="false" />
             </options>
           </option>
           <option name="search" value="false" />
@@ -1043,6 +1044,7 @@
   </colorschemes>
   <string_tables>
     <string_table name="npnxnanbnsnfns00000000001">
+      <string id="acc_active">active</string>
       <string id="check_include">Check to include</string>
       <string id="clear">Clear and return to Menu</string>
       <string id="close">Close</string>
@@ -1076,6 +1078,7 @@
       <string id="resources">Resources</string>
       <string id="acc_resources">resources</string>
       <string id="restart">Restart</string>
+      <string id="resume">Resume</string>
       <string id="search">Search...</string>
       <string id="acc_search_input">search</string>
       <string id="search_in">Search in:</string>
@@ -1177,6 +1180,11 @@
             <slidelink slideid="_player.6i1XDeBliQj.5VFwmy8ET9O" displaytext="A (G) Newspaper Article Parts" expand="false" type="slide" />
             <slidelink slideid="_player.6i1XDeBliQj.6iMsMTTQri7" displaytext="A (G) Newspaper Article Parts Citation" expand="false" type="slide" />
             <slidelink slideid="_player.6i1XDeBliQj.6T4e4Vnwv1w" displaytext="A (G) Newspaper Article Parts Footnote" expand="false" type="slide" />
+          </links>
+        </slidelink>
+        <slidelink slideid="_player.5qem24pEiLz" displaytext="Results" expand="true" type="slide">
+          <links>
+            <slidelink slideid="_player.5qem24pEiLz.5wZl5fV1HOU" displaytext="Final Score Slide" expand="false" type="slide" />
           </links>
         </slidelink>
       </links>
