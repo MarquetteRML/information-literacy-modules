@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bwFrame xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" default_layout="npnxnanbnsnfns00000000001" textdirection="ltr" device="false" fontscale="100" kbshortcuts="false" skip_nav_enabled="true" chromeless="false" outputtype="undefined" theme="classic">
+<bwFrame xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" default_layout="npnxnanbnsnfns00000000001" textdirection="ltr" textengine="Uniscribe" device="false" fontscale="100" captionFontScale="100" kbshortcuts="false" skip_nav_enabled="true" chromeless="false" outputtype="undefined" theme="classic">
   <layouts>
     <layout name="npnxnanbsnfns00000000001" font="Articulate" controllayout="npnxnanbsnfns00000000001" colorscheme="npnxnanbnsnfns00000000001" string_table="npnxnanbnsnfns00000000001" />
     <layout name="pxabnsnfns00000000001" font="Articulate" controllayout="pxabnsnfns00000000001" colorscheme="npnxnanbnsnfns00000000001" string_table="npnxnanbnsnfns00000000001" />
@@ -13,7 +13,7 @@
         <options>
           <option name="title_enabled" value="true">
             <options>
-              <option name="title_text" value="Anatomy of Citations (MLA)" />
+              <option name="title_text" value="Anatomy of Citations - MLA Style" />
             </options>
           </option>
           <option name="logo_enabled" value="false">
@@ -26,7 +26,7 @@
           </option>
           <optionlist name="tabs">
             <listitems>
-              <listitem name="outline" value="true" group="linkleft" />
+              <listitem name="outline" value="false" group="linkleft" />
               <listitem name="resources" value="false" group="linkright" />
               <listitem name="customlink" value="true" group="linkright">
                 <properties>
@@ -49,6 +49,7 @@
               <option name="height" value="135" />
             </options>
           </option>
+          <option name="logoAltText" />
         </options>
       </optiongroup>
       <optiongroup name="menuoptions">
@@ -78,6 +79,7 @@
               <option name="font" value="Open Sans" />
             </options>
           </option>
+          <option name="settings" value="false" />
         </options>
       </optiongroup>
       <optiongroup name="bottombaroptions">
@@ -1040,17 +1042,40 @@
           </color>
         </group_colors>
       </color_group>
+      <color_group name="accessibility">
+        <group_colors>
+          <color name="focus_rect">
+            <fill type="linear" rotation="90">
+              <colors>
+                <color rgb="0xFFFF00" alpha="100" stop="0" />
+              </colors>
+            </fill>
+          </color>
+        </group_colors>
+      </color_group>
     </colorscheme>
   </colorschemes>
   <string_tables>
     <string_table name="npnxnanbnsnfns00000000001">
+      <string id="three_image_items">items</string>
+      <string id="three_image_viewed">viewed</string>
+      <string id="three_image_of">of</string>
+      <string id="three_image_item">item</string>
+      <string id="accessible_text">Accessible text</string>
+      <string id="keyboardshortcuts_lower">Keyboard shortcuts</string>
+      <string id="zoom_to_fit">Zoom to fit</string>
       <string id="acc_active">active</string>
+      <string id="alt_key">Alt</string>
       <string id="check_include">Check to include</string>
       <string id="clear">Clear and return to Menu</string>
       <string id="close">Close</string>
       <string id="acc_closed_captions">Closed captions. Press the spacebar to toggle captions on and off.</string>
+      <string id="closed_captions_tip">Toggle captions</string>
       <string id="continue">Continue</string>
       <string id="continueresponsive">Continue</string>
+      <string id="ctrl_key">Ctrl</string>
+      <string id="enable_keyboardshortcuts">Enable keyboard shortcuts</string>
+      <string id="enter_key">Enter</string>
       <string id="exit">Exit</string>
       <string id="filter">Filter</string>
       <string id="finish">FINISH</string>
@@ -1059,36 +1084,67 @@
       <string id="acc_definition">definition</string>
       <string id="glossary">Glossary</string>
       <string id="terms">Terms</string>
+      <string id="action">Action</string>
+      <string id="keyboardshortcuts">Keyboard Shortcuts</string>
+      <string id="shortcuthelp">List keyboard shortcuts</string>
+      <string id="mute_shortcut">Mute / unmute</string>
+      <string id="next_shortcut">Next slide</string>
+      <string id="playpause_shortcut">Play / pause</string>
+      <string id="previous_shortcut">Previous slide</string>
+      <string id="replay_shortcut">Replay slide</string>
+      <string id="shortcut">Shortcut</string>
+      <string id="submit_shortcut">Submit slide</string>
+      <string id="acctext_shortcut">Toggle accessible text</string>
+      <string id="closedcaptions_shortcut">Toggle closed captions</string>
+      <string id="togglezoom">Toggle zoom to fit</string>
       <string id="outline">Menu</string>
       <string id="disabled_orientation">Please rotate your device</string>
+      <string id="mute_tip">Mute</string>
       <string id="next">NEXT</string>
       <string id="acc_next">next</string>
+      <string id="next_slide_tip">Next slide</string>
       <string id="transcript_chk">Notes</string>
       <string id="transcript">Notes</string>
       <string id="bio">Bio</string>
       <string id="more_info">More info</string>
       <string id="closed_captions">Captions</string>
       <string id="acc_pause">pause</string>
+      <string id="pause_tip">Pause</string>
       <string id="acc_play">play</string>
+      <string id="play_tip">Play</string>
       <string id="send_an_email">Send an email</string>
       <string id="prev">PREV</string>
       <string id="acc_previous">previous</string>
+      <string id="previous_slide_tip">Previous slide</string>
       <string id="question_list">Question List</string>
+      <string id="replay_tip">Replay</string>
       <string id="acc_replay">replay</string>
       <string id="resources">Resources</string>
       <string id="acc_resources">resources</string>
       <string id="restart">Restart</string>
       <string id="resume">Resume</string>
-      <string id="search">Search...</string>
+      <string id="acc_locked">locked</string>
       <string id="acc_search_input">search</string>
+      <string id="search_toggle">Search</string>
+      <string id="sidebar_toggle">Sidebar Toggle</string>
+      <string id="acc_slide_progress">slide progress</string>
+      <string id="desktop_start">Start Course</string>
+      <string id="mobile_start">Start Course</string>
+      <string id="acc_visited">visited</string>
+      <string id="search">Search...</string>
       <string id="search_in">Search in:</string>
       <string id="search_results">Search Results</string>
+      <string id="settings_tip">Settings</string>
+      <string id="shift_key">Shift</string>
       <string id="acc_skipnavigation">Skip Navigation. Hit enter to return to the slide.</string>
       <string id="slide_text_chk">Slide Text</string>
+      <string id="spacebar_key">Space</string>
       <string id="submitall">SUBMIT ALL</string>
       <string id="acc_submitall">submit all</string>
       <string id="submit">SUBMIT</string>
       <string id="acc_submit">submit</string>
+      <string id="submit_tip">Submit</string>
+      <string id="unmute_tip">Unmute</string>
       <string id="acc_volume">volume</string>
     </string_table>
   </string_tables>
@@ -1107,7 +1163,6 @@
         <slidelink slideid="_player.6dnTAA3sU9S" displaytext="Anatomy of Citations MLA 8th Edition" expand="true" type="slide">
           <links>
             <slidelink slideid="_player.6dnTAA3sU9S.6BTBsU1YyCx" displaytext="Start Slide" expand="false" type="slide" />
-            <slidelink slideid="_player.6dnTAA3sU9S.6GwBFthn0mS" displaytext="Draw from Practice Topic" expand="false" type="slide" />
           </links>
         </slidelink>
         <slidelink slideid="_player.5gnStz2iklL" displaytext="Topic Just War" expand="true" type="slide">
@@ -1149,35 +1204,14 @@
             <slidelink slideid="_player.6AUuz9Gn5zL.6UAZHr5UZsV" displaytext="Journal Pub Type" expand="false" type="slide" />
           </links>
         </slidelink>
-        <slidelink slideid="_player.6Ff5Ad788mX" displaytext="(P) Topic Accesible" expand="true" type="slide">
-          <links>
-            <slidelink slideid="_player.6Ff5Ad788mX.5sE4ceZZRm0" displaytext="(A) (P) Book Chapter Parts" expand="false" type="slide" />
-            <slidelink slideid="_player.6Ff5Ad788mX.5X1e69oQZiU" displaytext="(A) (P) Book Chapter Citation" expand="false" type="slide" />
-            <slidelink slideid="_player.6Ff5Ad788mX.6FdMGIoHMBv" displaytext="(A) (P) Book Chapter Pub Type" expand="false" type="slide" />
-            <slidelink slideid="_player.6Ff5Ad788mX.5ZDfqby1XmP" displaytext="(A) (P) Popular Parts" expand="false" type="slide" />
-            <slidelink slideid="_player.6Ff5Ad788mX.5y7FKSgbr11" displaytext="(A) (P) Popular Citation" expand="false" type="slide" />
-            <slidelink slideid="_player.6Ff5Ad788mX.6KU0LYmUydh" displaytext="(A) (P) Popular Pub Type" expand="false" type="slide" />
-            <slidelink slideid="_player.6Ff5Ad788mX.6fVWHsq9Oao" displaytext="(A) (P) Journal Parts" expand="false" type="slide" />
-            <slidelink slideid="_player.6Ff5Ad788mX.6HoHQQj6SvS" displaytext="(A) (P) Journal Citation" expand="false" type="slide" />
-            <slidelink slideid="_player.6Ff5Ad788mX.6C882Dr00qb" displaytext="(A) (P) Journal Pub Type" expand="false" type="slide" />
-          </links>
-        </slidelink>
-        <slidelink slideid="_player.6N4Bhfr5Npp" displaytext="(G) Topic Accessible" expand="true" type="slide">
-          <links>
-            <slidelink slideid="_player.6N4Bhfr5Npp.6qnVstSIdta" displaytext="(A) (G) Book Chapter Parts" expand="false" type="slide" />
-            <slidelink slideid="_player.6N4Bhfr5Npp.662YryUBF4g" displaytext="(A) (G) Book Chapter Citation" expand="false" type="slide" />
-            <slidelink slideid="_player.6N4Bhfr5Npp.6l85nPGdnja" displaytext="(A) (G) Book Chapter Pub Type" expand="false" type="slide" />
-            <slidelink slideid="_player.6N4Bhfr5Npp.5n2JYFdjxw5" displaytext="(A) (G) Popular Parts" expand="false" type="slide" />
-            <slidelink slideid="_player.6N4Bhfr5Npp.6MohFBwebX4" displaytext="(A) (G) Popular Citation" expand="false" type="slide" />
-            <slidelink slideid="_player.6N4Bhfr5Npp.6QL5bACmGFG" displaytext="Popular Pub Type" expand="false" type="slide" />
-            <slidelink slideid="_player.6N4Bhfr5Npp.5hWmch0nJ9b" displaytext="(A) (G) Journal Parts" expand="false" type="slide" />
-            <slidelink slideid="_player.6N4Bhfr5Npp.5ulRwyFp5AQ" displaytext="(A) (G) Journal Citation" expand="false" type="slide" />
-            <slidelink slideid="_player.6N4Bhfr5Npp.5xntphWSskn" displaytext="(A) (G) Journal Pub Type" expand="false" type="slide" />
-          </links>
-        </slidelink>
         <slidelink slideid="_player.6fS6puPl4qm" displaytext="Results" expand="true" type="slide">
           <links>
-            <slidelink slideid="_player.6fS6puPl4qm.6cBAUdUTsa5" displaytext="Final Score Slide" expand="false" type="slide" />
+            <slidelink slideid="_player.6fS6puPl4qm.6cBAUdUTsa5" displaytext="Book Chapter Parts Submit" expand="false" type="slide" />
+            <slidelink slideid="_player.6fS6puPl4qm.5xp6Kdx3HkM" displaytext="Book Chapter Citation Submit" expand="false" type="slide" />
+            <slidelink slideid="_player.6fS6puPl4qm.6NMgzwmrUIF" displaytext="Popular Parts Submit" expand="false" type="slide" />
+            <slidelink slideid="_player.6fS6puPl4qm.5ule8tzyZTy" displaytext="Popular Citation Submit" expand="false" type="slide" />
+            <slidelink slideid="_player.6fS6puPl4qm.6VjsmXs2wul" displaytext="Journal Parts Submit" expand="false" type="slide" />
+            <slidelink slideid="_player.6fS6puPl4qm.6Rud0aOaORb" displaytext="Journal Citation Submit" expand="false" type="slide" />
           </links>
         </slidelink>
       </links>
