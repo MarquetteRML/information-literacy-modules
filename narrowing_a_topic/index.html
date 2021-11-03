@@ -1,304 +1,139 @@
-<!DOCTYPE HTML>
-<html style="height: 100%;" lang="en-US">
+<!DOCTYPE html>
+<html lang="en-US">
 <head>
-    
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <!-- Created using Storyline 3 - http://www.articulate.com  -->
-    <!-- version: 3.6.18134.0 -->
-
-    <title>Help a Buddy Out (Narrowing a Topic)</title>
-    <style>
-        body {
-            background: #ffffff;
-            overflow: hidden;
-        }
-
-        html, body, table {
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            border: 0;
-        }
-
-        table td {
-            vertical-align: middle;
-            text-align: center;
-        }
-
-        #nosupport {
-            background: #f5f5f5;
-            margin: 50px 65px;
-            border: 1px solid #d5d5d5;
-            width: calc(100% - 130px);
-            height: calc(100% - 100px);
-        }
-
-        p {
-            font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
-            font-size: 12pt;
-            color: #303030;
-        }
-
-        a {
-            color: #2D9DDA;
-            text-decoration: none !important;
-        }
-
-    </style>
-    <script>
-        var html5Supported = true;
-
-    </script>
-    <!--[if lte IE 9]><script>html5Supported = false;</script><![endif]-->
-
-    <script type="text/javascript">
-
-        function routePlayer() {
-
-            var settings = {
-                lmsEnabled: false,
-                tincanEnabled: false,
-                aoEnabled: false,
-                runtimeOrder: [{"type":"html5","url":"story_html5.html"}],
-                warnOnCommitFail: false
-            };
-
-            var PARAM_WARN_ON_COMMIT = {name: 'warncommit', value: 1},
-                    PARAM_LMS = {name: 'lms', value: 1},
-                    PARAM_TINCAN = {name: 'tincan', value: true},
-                    PARAM_AO = {name: 'aosupport', value: true};
-
-            var detection = {
-                agent: navigator.userAgent,
-
-                flashEnabled: function() {
-                    var description, version, flashAX,
-                            plugin = navigator.plugins["Shockwave Flash"];
-
-                    if (plugin != null) {
-                        description = plugin.description.split(" ");
-                        version = Number(description[description.length - 2]);
-
-                        return (version >= 10) || isNaN(version);
-                    } else {
-                        try {
-                            flashAX = new ActiveXObject("ShockwaveFlash.ShockwaveFlash.10");
-                            return (flashAX != null);
-                        } catch (e) {
-                        }
-                    }
-
-                    return false;
-                },
-				
-                isFlashWaiting: function() {
-                    var html = '',
-                    divFlash = document.getElementById('flashCheck'),
-                    player;
-
-                    html += '<object width="100px" height="100px" id="player" type="application/x-shockwave-flash">';
-                    html += '<param name="name" value="player" />';
-                    html += '<param name="wmode" value="opaque" />';
-                    html += '<param name="allowScriptAccess" value="always" />';
-                    html += '</object>';
-
-                    divFlash.innerHTML = html;
-                    player = document.getElementById('player');
-
-                    return player != null && player.getBoundingClientRect().width > 0;
-                },
-
-                html5Enabled: function() {
-                    return html5Supported;
-                },
-
-                ampEnabled: function() {
-                    return ((this.isIOS() && this.isIPad()) || this.isAndroid());
-                },
-
-                isIOS: function() {
-                    return (this.agent.indexOf("AppleWebKit/") > -1 && this.agent.indexOf("Mobile/") > -1)
-                },
-
-                isAndroid: function() {
-                    return (this.agent.indexOf("Android") > -1);
-                },
-
-                isIPad: function() {
-                    return (this.agent.indexOf("iPad") > -1);
-                },
-
-                isEdge: function() {
-                    var hasGlCapability = (function() {
-                        var canv = document.createElement('canvas'),
-                            gl = canv.getContext('webgl') || canv.getContext('experimental-webgl');
-                        canv = null;
-                        return gl != null;
-                    }());
-                    return window.MSBlobBuilder != null && window.msCrypto == null && hasGlCapability;
-                }
-            };
-
-            var router = {
-
-                init: function() {
-                    var i, url, launchInfo,
-                        redirected = false,
-                        order = settings.runtimeOrder,
-                        launchMap = {
-                            flash: {
-                                isEnabled: 'flashEnabled',
-                                getParams: 'getFlashParams',
-                                delim: '?'
-                            },
-                            html5: {
-                                isEnabled: 'html5Enabled',
-                                getParams: 'getHtml5Params',
-                                delim: '?'
-                            },
-                            amp: {
-                                isEnabled: 'ampEnabled',
-                                getParams: 'getAmpParams',
-                                delim: '#'
-                            }
-                        };
-
-                    if (document.location.search.toLowerCase().indexOf('forceflash') != -1) {
-                        this.moveFlashToStartOfOrder(order);
-                    }
-
-                    for (i = 0; i < order.length; i++) {
-                        launchInfo = launchMap[order[i].type];
-                        url = order[i].url;
-
-                        if (detection[launchInfo.isEnabled]()) {
-                            this.redirect(url, this[launchInfo.getParams](), launchInfo.delim);
-                            redirected = true;
-                            break;
-                        }
-                    }
-
-                    if (!redirected) {
-                        if (
-                            detection.isEdge() &&
-                            order[0].type === 'flash' &&
-                            detection.isFlashWaiting()
-                        ) {
-                            launchInfo = launchMap[order[0].type];
-                            url = order[0].url;
-                            this.redirect(url, this[launchInfo.getParams](), launchInfo.delim);
-                        } else {
-                            document.getElementById('nosupport').style.visibility = 'visible';
-                        }
-                    }
-                },
-
-                moveFlashToStartOfOrder: function (order) {
-                    var i,
-                        flashIndex = -1;
-                    for (i = 0; i < order.length; i++) {
-                        if (order[i].type == "flash") {
-                            flashIndex = i;
-                            break;
-                        }
-                    }
-                    if (flashIndex != -1) {
-                        order.splice(0, 0, order.splice(flashIndex, 1)[0]);
-                    }
-                },
-
-                getQueryString: function (params) {
-                    params = params || [];
-                    var i,
-                            queryString = document.location.search.substr(1),
-                            paramArr = queryString.length > 0 ? queryString.split('&') : [];
-
-                    for (i = 0; i < params.length; i++) {
-                        paramArr.push([params[i].name, params[i].value].join('='));
-                    }
-
-                    return paramArr.join('&');
-                },
-
-                formatUrl: function (url, params, delim) {
-                    delim = delim || '?';
-
-                    var queryString = this.getQueryString(params);
-
-                    if (queryString != null && queryString.length > 0) {
-                        return [url, queryString].join(delim);
-                    }
-
-                    return url;
-                },
-
-                redirect: function (url, params, delim) {
-                    window.location.replace(this.formatUrl(url, params, delim));
-                },
-
-                getFlashParams: function () {
-                    return [];
-                },
-
-                getHtml5Params: function () {
-                    var params = [];
-                    if (settings.tincanEnabled) {
-                        params.push(PARAM_TINCAN);
-                    } else if (settings.lmsEnabled) {
-                        params.push(PARAM_LMS);
-                        if (settings.warnOnCommitFail) {
-                            params.push(PARAM_WARN_ON_COMMIT);
-                        }
-                    }
-
-                    return params;
-                },
-
-                getAmpParams: function () {
-                    var tincanProto = settings.aoEnabled || settings.tincanEnabled,
-                            params = [];
-                    // build AMP params
-                    if (tincanProto) {
-                        params.push(PARAM_TINCAN);
-                        if (settings.aoEnabled) {
-                            params.push(PARAM_AO);
-                        }
-                    }
-                    return params;
-                }
-            };
-
-            router.init();
-        };
-
-    </script>
+  <meta charset="utf-8">
+  <!-- Created using Storyline 3 - http://www.articulate.com  -->
+  <!-- version: 3.12.24693.0 -->
+  <title>Help a Buddy Out (Narrowing a Topic)</title>
+  <meta http-equiv="x-ua-compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, maximum-scale=2.0, user-scalable=yes, shrink-to-fit=no, minimal-ui" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <style>
+    html, body { height: 100%; padding: 0; margin: 0 }
+    #app { height: 100%; width: 100%; }
+	p { line-height: 1.5; }
+  </style>
+  
+  <script>window.THREE = { };</script>
 </head>
-<body onload="routePlayer()" style="height: 100%;">
-<div id="nosupport" style="visibility: hidden;">
-    <table>
-        <tr>
-            <td>
-                <p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="90.2" height="74.9" viewBox="0 0 90 75" version="1.1">
-                        <g transform="scale(.1)">
-                            <path d="m409 7c54-25 106 20 130 66 106 170 213 340 320 510 17 28 32 63 19 96-14 36-55 51-91 51-224 1-448 0-672 0-35 1-76-3-100-33-26-32-15-77 5-108 107-173 216-344 324-517 16-26 35-53 65-65z"
-                                  fill="#4c4c4c"></path>
-                            <path d="m419 57c26-20 55 4 68 27 109 174 218 348 328 522 9 17 23 35 17 55-11 20-36 18-55 19-224 0-447 0-670 0-20-1-46 1-57-19-5-18 6-34 14-48 109-174 218-348 327-522 9-12 17-25 28-34z"
-                                  fill="#f5f5f5"></path>
-                            <path d="m429 179c25-12 58 8 56 35-1 81-5 161-10 242 2 32-49 39-57 9-7-73-6-146-11-219-1-24-4-56 22-67zM430 539 430 539 430 539c45-24 80 53 32 72-45 24-80-53-32-72z"
-                                  fill="#4c4c4c"></path>
-                        </g>
-                    </svg>
-                </p>
-                <p>This course cannot be played because your web browser does not support HTML5.</p>
-                <p><a href=""></a></p>
+<body style="background: #FFFFFF" class="cs-HTML theme-classic">
+  <!-- 360 -->
+  <script>!function(e){function n(e,i){return e.test(i)}function i(e){var i=e||navigator.userAgent,o=i.split("[FBAN");if(void 0!==o[1]&&(i=o[0]),this.apple={phone:n(t,i),ipod:n(d,i),tablet:!n(t,i)&&n(s,i),device:n(t,i)||n(d,i)||n(s,i)},this.amazon={phone:n(h,i),tablet:!n(h,i)&&n(a,i),device:n(h,i)||n(a,i)},this.android={phone:n(h,i)||n(b,i),tablet:!n(h,i)&&!n(b,i)&&(n(a,i)||n(r,i)),device:n(h,i)||n(a,i)||n(b,i)||n(r,i)},this.windows={phone:n(l,i),tablet:n(p,i),device:n(l,i)||n(p,i)},this.other={blackberry:n(f,i),blackberry10:n(u,i),opera:n(c,i),firefox:n(A,i),chrome:n(w,i),device:n(f,i)||n(u,i)||n(c,i)||n(A,i)||n(w,i)},this.seven_inch=n(v,i),this.any=this.apple.device||this.android.device||this.windows.device||this.other.device||this.seven_inch,this.phone=this.apple.phone||this.android.phone||this.windows.phone,this.tablet=this.apple.tablet||this.android.tablet||this.windows.tablet,"undefined"==typeof window)return this}function o(){var e=new i;return e.Class=i,e}var t=/iPhone/i,d=/iPod/i,s=/iPad/i,b=/(?=.*\bAndroid\b)(?=.*\bMobile\b)/i,r=/Android/i,h=/(?=.*\bAndroid\b)(?=.*\bSD4930UR\b)/i,a=/(?=.*\bAndroid\b)(?=.*\b(?:KFOT|KFTT|KFJWI|KFJWA|KFSOWI|KFTHWI|KFTHWA|KFAPWI|KFAPWA|KFARWI|KFASWI|KFSAWI|KFSAWA)\b)/i,l=/IEMobile/i,p=/(?=.*\bWindows\b)(?=.*\bARM\b)/i,f=/BlackBerry/i,u=/BB10/i,c=/Opera Mini/i,w=/(CriOS|Chrome)(?=.*\bMobile\b)/i,A=/(?=.*\bFirefox\b)(?=.*\bMobile\b)/i,v=new RegExp("(?:Nexus 7|BNTV250|Kindle Fire|Silk|GT-P1000)","i");"undefined"!=typeof module&&module.exports&&"undefined"==typeof window?module.exports=i:"undefined"!=typeof module&&module.exports&&"undefined"!=typeof window?module.exports=o():"function"==typeof define&&define.amd?define("isMobile",[],e.isMobile=o()):e.isMobile=o()}(this);
+    window.isMobile.apple.tablet = window.isMobile.apple.tablet ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    window.isMobile.apple.device = window.isMobile.apple.device || window.isMobile.apple.tablet;
+    window.isMobile.tablet = window.isMobile.tablet || window.isMobile.apple.tablet;
+    window.isMobile.any = window.isMobile.any || window.isMobile.apple.tablet;
+  </script>
 
-            </td>
-        </tr>
-    </table>
-</div>
-<div id="flashCheck" style="visibility: hidden" >
-</div>
+  <div id="focus-sink" aria-hidden="true" tabIndex="-1"></div>
+
+  <div id="preso"></div>
+  <script>
+    window.DS = {};
+    window.globals = {
+      DATA_PATH_BASE: '',
+      HAS_FRAME: true,
+      HAS_SLIDE: true,
+
+      lmsPresent: false,
+      tinCanPresent: false,
+      cmi5Present: false,
+      aoSupport: false,
+      scale: 'show all',
+      captureRc: false,
+      browserSize: 'optimal',
+      bgColor: '#FFFFFF',
+      features: 'AccessibleText,SettingsControl,TextStyleHyperlinks',
+      themeName: 'classic',
+      preloaderColor: '#FFFFFF',
+      suppressAnalytics: false,
+      productChannel: 'perpetual',
+      publishSource: 'storyline',
+      aid: '',
+      cid: 'c6592559-8811-4401-9fee-9f92e5d6e252',
+      playerVersion: '3.12.24693.0',
+      maxIosVideoElements: 5,
+
+      
+      parseParams: function(qs) {
+        if (window.globals.parsedParams != null) {
+          return window.globals.parsedParams;
+        }
+        qs = (qs || window.location.search.substr(1)).split('+').join(' ');
+        var params = {},
+            tokens,
+            re = /[?&]?([^=]+)=([^&]*)/g;
+
+        while (tokens = re.exec(qs)) {
+          params[decodeURIComponent(tokens[1]).trim()] =
+            decodeURIComponent(tokens[2]).trim();
+        }
+        window.globals.parsedParams = params;
+        return params;
+      }
+
+    };
+
+    (function() {
+
+      var classTypes = [ 'desktop', 'mobile', 'phone', 'tablet' ];
+
+      var addDeviceClasses = function(prefix, testObj) {
+        var curr, i;
+        for (i = 0; i < classTypes.length; i++) {
+          curr = classTypes[i];
+          if (testObj[curr]) {
+            document.body.classList.add(prefix + curr);
+          }
+        }
+      };
+
+      var params = window.globals.parseParams(),
+          isDevicePreview = params.devicepreview === '1',
+          isPhoneOverride = params.deviceType === 'phone' || (isDevicePreview && params.phone == '1'),
+          isTabletOverride = (params.deviceType === 'tablet' || isDevicePreview) && !isPhoneOverride,
+          isMobileOverride = isPhoneOverride || isTabletOverride;
+
+      var deviceView = {
+        desktop: !window.isMobile.any && !isMobileOverride,
+        mobile: window.isMobile.any || isMobileOverride,
+        phone: isPhoneOverride || (window.isMobile.phone && !isTabletOverride),
+        tablet: isTabletOverride || window.isMobile.tablet
+      };
+
+      window.globals.deviceView = deviceView;
+      window.isMobile.desktop = !window.isMobile.any;
+      window.isMobile.mobile = window.isMobile.any;
+
+      addDeviceClasses('view-', deviceView);
+
+    })();
+  </script>
+  
+  <script src='story_content/user.js' type=text/javascript></script>
+  <div class="slide-loader"></div>
+
+  <script type="text/javascript">
+    if (window.globals.deviceView.isMobile) { var doc = document, loader = doc.body.querySelector('.slide-loader'); [ 1, 2, 3 ].forEach(function(n) { var d = doc.createElement('div'); d.style.backgroundColor = window.globals.preloaderColor; d.classList.add('mobile-loader-dot'); d.classList.add('dot' + n); loader.appendChild(d); }); }
+  </script>
+
+  <div class="mobile-load-title-overlay" style="display: none">
+    <div class="mobile-load-title">Help a Buddy Out (Narrowing a Topic)</div>
+  </div>
+
+  <div class="mobile-chrome-warning"></div>
+
+  <script>
+    
+    if (window.autoSpider && window.vInterfaceObject) {
+      document.querySelector('.mobile-load-title-overlay').style.display = 'none';
+    }
+  </script>
+
+  
+
+  <link rel="stylesheet" href="html5/data/css/output.min.css" data-noprefix />
 </body>
+<script src="html5/lib/scripts/bootstrapper.min.js"></script>
 </html>
