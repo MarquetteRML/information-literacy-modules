@@ -6,7 +6,7 @@ Interactive Articulate Storyline modules developed to teach undergraduates infor
 Customization
 =============
 
-To customize or edit the modules you will need to have [Articulate Storyline](https://articulate.com/360/storyline). The latest source files were developed using Storyline 3 - Build 3.3.15007. You WILL need Storyline 3 to edit these files.
+To customize or edit the modules you will need to have [Articulate Storyline](https://articulate.com/360/storyline). The latest source files were developed using Storyline 3 - Build 3.13.26122.0. You WILL need Storyline 3 to edit these files.
 
 Storyline 1 and 2 source files are available in the repository archive. 
 
