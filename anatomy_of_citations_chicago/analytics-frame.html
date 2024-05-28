@@ -85,7 +85,8 @@
         // coming from flash, we will use older JS since we can expect some older IE versions
         var validProps = [
           'os', 'browser', 'playerVersion', 'playerType', 'lmsPresent', 'tinCanPresent',
-          'aoSupport', 'publishSource', 'protocol', 'productChannel', 'cid'
+          'aoSupport', 'publishSource', 'protocol', 'productChannel', 'cid', 'screenResolution',
+          'pixelRatio'
         ];
         var aid,
             props = window.location.search.replace(/^\?/, '').split('&'),
